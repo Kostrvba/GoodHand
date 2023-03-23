@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.views import View
+from GoodHands.models import Donation, Institution
 
 
 class LandingPage(View):
 
     def get(self, request):
-        return render(request, 'index.html')
+        donations = Donation.objects.all().count()
+        organisations = Institution.objects.all().count()
+        return render(request, 'index.html', {'donations': donations, 'organisations': organisations})
 
 
 class AddDonation(View):
