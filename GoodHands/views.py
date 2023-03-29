@@ -1,7 +1,8 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views import View
 from GoodHands.models import Donation, Institution, User
+from django.conf import settings
 
 
 class LandingPage(View):
@@ -37,6 +38,7 @@ class Login(View):
             return redirect('main')
         return redirect('register')
 
+
 class Register(View):
 
     def get(self, request):
@@ -56,3 +58,8 @@ class Register(View):
             user.save()
             return redirect('login')
         return render(request, 'register.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(settings.LOGOUT_REDIRECT_URL)
