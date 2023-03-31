@@ -20,6 +20,12 @@ class Institution(models.Model):
     type = models.CharField(max_length=50, choices=CHOICES, default=FUNDACJA)
     categories = models.ManyToManyField('Category')
 
+    class Meta:
+        verbose_name_plural = "instytucje"
+
+    def __str__(self):
+        return self.name
+
 
 class Donation(models.Model):
     quantity = models.PositiveIntegerField()

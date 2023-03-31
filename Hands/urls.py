@@ -19,7 +19,7 @@ from GoodHands import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name="admin"),
+    path('admin/', admin.site.urls),
     path('', views.LandingPage.as_view(), name="main"),
     path('donation/', views.AddDonation.as_view(), name="donation"),
     path('login/', views.Login.as_view(), name="login"),
