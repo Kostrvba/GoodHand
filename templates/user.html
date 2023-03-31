@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% load static %}
+
+{% block content %}
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Witaj, {{ user.first_name }}</h1>
+        <hr class="my-4">
+        <p class="lead">Twoje imię i nazwisko: {{ user.first_name }} {{ user.last_name }}</p>
+        <p class="lead">Twój email: {{ user.email }}</p>
+    </div>
+{% endblock %}

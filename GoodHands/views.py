@@ -60,6 +60,11 @@ class Register(View):
         return render(request, 'register.html')
 
 
+class Account(View):
+    def get(self, request):
+        return render(request, 'user.html')
+
+
 def logout_view(request):
     logout(request)
     return redirect(settings.LOGOUT_REDIRECT_URL)
