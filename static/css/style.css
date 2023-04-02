@@ -848,7 +848,7 @@ form.form--contact textarea::placeholder {
 }
 
 /* line 2, scss/modules/_header.scss */
-header.header--main-page {
+div.header--main-page {
   background-image: url(../images/header-bg.jpg);
   background-position: bottom left -30vh;
   background-repeat: no-repeat;
@@ -858,7 +858,7 @@ header.header--main-page {
 
 @media (min-width: 990px) and (max-width: 1230px) {
   /* line 2, scss/modules/_header.scss */
-  header.header--main-page {
+  div.header--main-page {
     background-position: bottom left -55vh;
     background-size: 90vw;
   }
