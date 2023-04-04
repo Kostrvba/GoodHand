@@ -253,3 +253,28 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
+
+
+// znajdź elementy potrzebne do aktualizacji organizacji
+const step3 = document.querySelector('[data-step="3"]');
+const institutionElements = step3.querySelectorAll('.institution');
+
+// znajdź elementy wyboru kategorii i dodaj im obsługę zdarzenia change
+const categoryCheckboxes = document.querySelectorAll('input[name="categories"]');
+categoryCheckboxes.forEach(cb => {
+  cb.addEventListener('change', event => {
+    // pobierz wartości wybranych kategorii
+    const selectedCategories = Array.from(categoryCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+
+    // zaktualizuj widoczność organizacji
+    institutionElements.forEach(el => {
+      const institutionCategories = JSON.parse(el.getAttribute('data-categories'));
+      const institutionHasSelectedCategories = institutionCategories.some(cat => selectedCategories.includes(cat.toString()));
+      el.style.display = institutionHasSelectedCategories ? 'block' : 'none';
+    });
+
+    // ustaw wartość wybranych kategorii w elemencie formularza
+    const selectedCategoriesInput = document.querySelector('input[name="selected_categories"]');
+    selectedCategoriesInput.value = selectedCategories.join(',');
+  });
+});
