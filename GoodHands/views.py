@@ -24,19 +24,12 @@ class AddDonation(View):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
         selected_categories = ','.join(str(cat.pk) for cat in categories)
-        return render(request, 'form.html', {
+        context = {
             'categories': categories,
             'institutions': institutions,
             'selected_categories': selected_categories,
-        })
-
-# class AddDonation(View):
-#     def get(self, request):
-#         if not request.user.is_authenticated:
-#             return redirect('main')
-#         categories = Category.objects.all()
-#         insitutions = Institution.objects.all()
-#         return render(request, 'form.html', {'categories': categories, 'institutions': insitutions})
+        }
+        return render(request, 'form.html', context)
 
 
 class Login(View):
@@ -77,7 +70,9 @@ class Register(View):
 
 class Account(View):
     def get(self, request):
-        return render(request, 'user.html')
+        user_donations = Donation.objects.filter(user=request.user)
+        context = {'donations': user_donations}
+        return render(request, 'user.html', context)
 
 
 def logout_view(request):

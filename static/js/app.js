@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   /**
    * HomePage - Help section
    */
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log(page);
     }
   }
+
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);
@@ -136,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
   }
+
   document.querySelectorAll(".form-group--dropdown select").forEach(el => {
     new FormSelect(el);
   });
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * Hide elements when clicked on document
    */
-  document.addEventListener("click", function(e) {
+  document.addEventListener("click", function (e) {
     const target = e.target;
     const tagName = target.tagName;
 
@@ -248,33 +250,48 @@ document.addEventListener("DOMContentLoaded", function() {
       this.updateForm();
     }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
-});
 
 
-// znajdź elementy potrzebne do aktualizacji organizacji
-const step3 = document.querySelector('[data-step="3"]');
-const institutionElements = step3.querySelectorAll('.institution');
+  const step1 = document.querySelector('form [data-step="1"]');
+  const step1NextStepButton = step1.querySelector('.btn.next-step');
+  const step1Checkboxes = step1.querySelectorAll('.form-group.form-group--checkbox label input');
+  const checkedBoxes = [];
 
-// znajdź elementy wyboru kategorii i dodaj im obsługę zdarzenia change
-const categoryCheckboxes = document.querySelectorAll('input[name="categories"]');
-categoryCheckboxes.forEach(cb => {
-  cb.addEventListener('change', event => {
-    // pobierz wartości wybranych kategorii
-    const selectedCategories = Array.from(categoryCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
-
-    // zaktualizuj widoczność organizacji
-    institutionElements.forEach(el => {
-      const institutionCategories = JSON.parse(el.getAttribute('data-categories'));
-      const institutionHasSelectedCategories = institutionCategories.some(cat => selectedCategories.includes(cat.toString()));
-      el.style.display = institutionHasSelectedCategories ? 'block' : 'none';
+  step1Checkboxes.forEach(el => {
+    el.addEventListener("change", function () {
+      if (this.checked) {
+        checkedBoxes.push(this.nextElementSibling.nextElementSibling.innerHTML); // dodaj wartość checkboxa do tablicy
+      } else {
+        checkedBoxes.splice(checkedBoxes.indexOf(this.nextElementSibling.nextElementSibling.innerHTML), 1); // usuń wartość checkboxa z tablicy
+      }
     });
+  })
 
-    // ustaw wartość wybranych kategorii w elemencie formularza
-    const selectedCategoriesInput = document.querySelector('input[name="selected_categories"]');
-    selectedCategoriesInput.value = selectedCategories.join(',');
-  });
+
+  // znajdź elementy potrzebne do aktualizacji organizacji
+  const step3 = document.querySelector('form [data-step="3"]');
+  const institutionElements = step3.querySelectorAll('.institution');
+  step1NextStepButton.addEventListener("click", () => {
+    console.log(checkedBoxes)
+    Array.from(institutionElements).map(el => {
+      el.style.display = "none"
+      let filterParams = []
+      if (el.getAttribute('data-category').includes(",")) {
+        filterParams = (el.getAttribute('data-category').split(',').map((element) => element.trim()));
+      } else {
+        filterParams = [el.getAttribute('data-category')];
+      }
+      console.log(filterParams)
+
+      if (filterParams.some((element) => checkedBoxes.includes(element))) {
+        console.log(el);
+        el.style.display = "block";
+      }
+    })
+  })
 });

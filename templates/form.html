@@ -58,70 +58,77 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
+
+
         <form action="form-confirmation.html" method="post">
 
+
+        </script>
           <!-- STEP 1: class .active is switching steps -->
-          <div data-step="1" class="active">
-            <h3>Zaznacz co chcesz oddać:</h3>
+      <div data-step="1" class="active">
+        <h3>Zaznacz co chcesz oddać:</h3>
 
-            {% for category in categories %}
-            <div class="form-group form-group--checkbox">
-              <label>
-                <input type="checkbox" name="categories" value="{{ category.id }}" />
-                <span class="checkbox"></span>
-                <span class="description">{{ category.name }}</span>
-              </label>
-            </div>
-            {% endfor %}
+        {% for category in categories %}
+        <div class="form-group form-group--checkbox">
+          <label>
+            <input type="checkbox" name="categories" value="{{ category.id }}" />
+            <span class="checkbox"></span>
+            <span class="description">{{ category.name }}</span>
+          </label>
+        </div>
+        {% endfor %}
 
-            <input type="hidden" name="selected_categories">
+        <input type="hidden" name="selected_categories">
 
-            <div class="form-group form-group--buttons">
-            <button type="button" class="btn next-step">Dalej</button>
-            </div>
-          </div>
+        <div class="form-group form-group--buttons">
+          <button type="button" class="btn next-step">Dalej</button>
+        </div>
+      </div>
 
 
-          <!-- STEP 2 -->
-          <div data-step="2">
-            <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+      <!-- STEP 2 -->
+      <div data-step="2">
+        <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
 
-            <div class="form-group form-group--inline">
-              <label>
-                Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" />
-              </label>
-            </div>
+        <div class="form-group form-group--inline">
+          <label>
+            Liczba 60l worków:
+            <input type="number" name="bags" step="1" min="1" />
+          </label>
+        </div>
 
-            <div class="form-group form-group--buttons">
-              <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
-            </div>
-          </div>
+        <div class="form-group form-group--buttons">
+          <button type="button" class="btn prev-step">Wstecz</button>
+          <button type="button" class="btn next-step">Dalej</button>
+        </div>
+      </div>
 
-<!-- STEP 4 -->
+      <!-- STEP 3 -->
 
-          <div data-step="3" class="institution-list">
-  <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+      <div data-step="3" class="institution-list">
+        <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
-  {% for institution in institutions %}
-    <div class="form-group form-group--checkbox institution" data-categories="{{ institution.categories }}">
-      <label>
-        <input type="radio" name="organization" value="{{ institution.id }}" />
-        <span class="checkbox radio"></span>
-        <span class="description">
-          <div class="title">{{ institution.name }}</div>
-          <div class="subtitle">{{ institution.description }}</div>
-        </span>
-      </label>
-    </div>
-  {% endfor %}
 
-  <div class="form-group form-group--buttons">
-    <button type="button" class="btn prev-step">Wstecz</button>
-    <button type="button" class="btn next-step">Dalej</button>
-  </div>
-</div>
+
+        {% for institution in institutions %}
+        <div class="form-group form-group--checkbox institution" data-categories="{{ institution.categories }}"
+          data-category="{% for category in institution.categories.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+          <label>
+            <input type="radio" name="organization" value="{{ institution.id }}" />
+            <span class="checkbox radio"></span>
+            <span class="description">
+              <div class="title">{{ institution.name }}</div>
+              <div class="subtitle">{{ institution.description }}</div>
+            </span>
+          </label>
+        </div>
+        {% endfor %}
+
+        <div class="form-group form-group--buttons">
+          <button type="button" class="btn prev-step">Wstecz</button>
+          <button type="button" class="btn next-step">Dalej</button>
+        </div>
+      </div>
 
           <!-- STEP 4 -->
 

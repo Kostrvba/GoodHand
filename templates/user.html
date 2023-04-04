@@ -9,4 +9,21 @@
         <p class="lead">Twoje imię i nazwisko: {{ user.first_name }} {{ user.last_name }}</p>
         <p class="lead">Twój email: {{ user.email }}</p>
     </div>
+    <h1>Lista przekazanych darów: </h1>
+{% if donations %}
+    <ul>
+    {% for donation in donations %}
+        <li>Worki: {{ donation.quantity }}</li>
+        <li>Organizacja: {{ donation.institution.name }}</li>
+        <li>Kategorie:
+            {% for category in donation.categories.all %}
+                {{ category.name }}
+            {% endfor %}
+        </li>
+        <li>Data odbioru: {{ donation.pick_up_date }} o godzinie {{ donation.pick_up_time }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nie przekazałeś/aś jeszcze żadnych darów.</p>
+{% endif %}
 {% endblock %}
