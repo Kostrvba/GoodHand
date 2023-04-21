@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(page);
     }
   }
-
   const helpSection = document.querySelector(".help");
   if (helpSection !== null) {
     new Help(helpSection);
@@ -137,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
-
   document.querySelectorAll(".form-group--dropdown select").forEach(el => {
     new FormSelect(el);
   });
@@ -250,7 +248,6 @@ document.addEventListener("DOMContentLoaded", function () {
       this.updateForm();
     }
   }
-
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
@@ -273,8 +270,19 @@ document.addEventListener("DOMContentLoaded", function () {
   })
 
 
+  const step2 = document.querySelector('form [data-step="2"]');
+  const step2NextStepButton = step2.querySelector('.btn.next-step');
+  let numbersOfBags;
+  step2NextStepButton.addEventListener("click", () => {
+    numbersOfBags = step2.querySelector('input[name="bags"]').value;
+    console.log(numbersOfBags)
+  })
+
+
+
   // znajdź elementy potrzebne do aktualizacji organizacji
   const step3 = document.querySelector('form [data-step="3"]');
+  const step3NextStepButton = step3.querySelector('.btn.next-step');
   const institutionElements = step3.querySelectorAll('.institution');
   step1NextStepButton.addEventListener("click", () => {
     console.log(checkedBoxes)
@@ -294,4 +302,60 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
   })
+
+  let checkedOrganization;
+  step3NextStepButton.addEventListener("click", () => {
+    const inputs = step3.querySelectorAll('input[name=organization]')
+    Array.from(inputs).forEach(el => {
+      if (el.checked) {
+        checkedOrganization = el.nextElementSibling.nextElementSibling.firstElementChild.innerHTML;
+        console.log(checkedOrganization)
+      }
+    })
+  })
+
+  const step4 = document.querySelector('form [data-step="4"]');
+  const step5 = document.querySelector('form [data-step="5"]');
+  const step4NextStepButton = step4.querySelector('.btn.next-step');
+  let city, street, postCode, phone, data, time, info;
+
+  const inputBags = step5.querySelector('#numberOfBags');
+  const inputStreet = step5.querySelector('#street');
+  const inputFundation = step5.querySelector('#fundation');
+  const inputPostCode = step5.querySelector('#postCode');
+  const inputCity = step5.querySelector('#city');
+  const inputPhone = step5.querySelector('#phone');
+  const inputData = step5.querySelector('#data');
+  const inputTime = step5.querySelector('#time');
+  const inputInfo = step5.querySelector('#info');
+
+
+
+
+  step4NextStepButton.addEventListener("click", () => {
+    street = step4.querySelector('input[name="address"]').value;
+    city = step4.querySelector('input[name="city"]').value;
+    postCode = step4.querySelector('input[name="postcode"]').value;
+    phone = step4.querySelector('input[name="phone"]').value;
+    data = step4.querySelector('input[name="data"]').value;
+    time = step4.querySelector('input[name="time"]').value;
+    info = step4.querySelector('textarea[name="more_info"]').value;
+    console.log(city)
+    inputBags.innerHTML = numbersOfBags;
+    inputCity.innerHTML = city;
+    inputStreet.innerHTML = street;
+    inputPhone.innerHTML = phone;
+    inputFundation.innerHTML = checkedOrganization;
+    inputData.innerHTML = data;
+    if (info == "") {
+      inputInfo.innerHTML = "Brak uwag";
+    } else {
+      inputInfo.innerHTML = info;
+    }
+    inputTime.innerHTML = time;
+    inputPostCode.innerHTML = postCode;
+
+  })
+
 });
+

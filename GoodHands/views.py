@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import View
 from GoodHands.models import Donation, Institution, User, Category
 from django.conf import settings
@@ -17,6 +19,7 @@ class LandingPage(View):
                       {'donations': donations, 'organisations': organisations, 'foundations': foundations,
                        'organs': organs, 'locals': locals})
 
+
 class AddDonation(View):
     def get(self, request):
         if not request.user.is_authenticated:
@@ -30,6 +33,7 @@ class AddDonation(View):
             'selected_categories': selected_categories,
         }
         return render(request, 'form.html', context)
+
 
 
 class Login(View):
@@ -69,10 +73,11 @@ class Register(View):
 
 
 class Account(View):
+    @method_decorator(login_required)
     def get(self, request):
-        user_donations = Donation.objects.filter(user=request.user)
-        context = {'donations': user_donations}
-        return render(request, 'user.html', context)
+        user_id = request.user.id
+        donations = Donation.objects.filter(user_id=user_id)
+        return render(request, 'user.html', {'donations': donations})
 
 
 def logout_view(request):
